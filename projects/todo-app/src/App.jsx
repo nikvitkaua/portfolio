@@ -1,20 +1,40 @@
-import {useState} from "react";
+import { useState, useEffect } from "react";
 
 import TaskInput from "./components/TaskInput";
 
 function App() {
   const [tasks, setTasks] = useState([]);
 
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
+  }, []);
+
+  const updateLocalStorage = (updatedTasks) => {
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  }
+
   const addTask = (taskText) => {
-    setTasks([...tasks, { id: Date.now(), text: taskText, completed: false }]);
+    const newTask = { id: Date.now(), text: taskText, completed: false };
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    updateLocalStorage(updatedTasks);
   }
 
   const toggleCompleted = (id) => {
-    setTasks(tasks.map(task => task.id === id ? {...task, completed: !task.completed} : task));
+    const updatedTasks = tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+    updateLocalStorage(updatedTasks);
   }
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id))
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    updateLocalStorage(updatedTasks);
   }
 
   return (
