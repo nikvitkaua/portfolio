@@ -17,7 +17,12 @@ function App() {
   }
 
   const addTask = (taskText) => {
-    const newTask = { id: Date.now(), text: taskText, completed: false };
+    const newTask = {
+        id: Date.now(),
+        text: taskText,
+        completed: false,
+        createdAt: new Date().toLocaleString(),
+    };
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
     updateLocalStorage(updatedTasks);
@@ -44,8 +49,9 @@ function App() {
 
       <ul>
         {tasks.map((task) => (
-          <li key={task.id} onClick={() => toggleCompleted(task.id)} style={{ textDecoration: task.completed ? 'line-through' : '' }}>
-            {task.text}
+          <li key={task.id} style={{ textDecoration: task.completed ? 'line-through' : '' }}>
+            <span>{task.createdAt}</span> | {task.text}
+            <button onClick={() => toggleCompleted(task.id)}>{task.completed ? 'Todo' : 'Completed'}</button>
             <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }}>Delete</button>
           </li>
         ))}
