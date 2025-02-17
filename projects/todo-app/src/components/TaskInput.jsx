@@ -24,14 +24,18 @@ function TaskInput({ addTask }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className="flex gap-2" onSubmit={handleSubmit}>
         <input 
           type="text" 
           placeholder="Take a key from the office..."
           value={task}
-          onChange={handleChange} 
+          onChange={handleChange}
+          className="w-full p-2 border rounded-md border-blue-500 text-black focus:outline-1 focus:outline-blue-600"
         />
-        <button type="submit">Add task</button>
+        <button
+         type="submit"
+          className="bg-blue-500 max-w-64 w-full text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >Add task</button>
       </form>
     </>
   );
